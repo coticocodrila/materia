@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Taller Materia</title>
+<meta name="description" content="Piezas de artistas locales, kits con tutorial y una caja de arte cada mes. Prototipo.">
+<link rel="icon" type="image/png" href="img/logo-taller-materia.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap">
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+<div class="proto"><div class="wrap"><span>PROTOTIPO · fotos, artistas y precios son de ejemplo</span><span class="hide-sm">v0.1</span></div></div>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a href="#" class="logo"><img src="img/logo-taller-materia.png" alt="Taller Materia, inicio" width="900" height="305"></a>
+    <nav class="main" aria-label="Principal">
+      <a href="#artistas" data-nav="artistas">Artistas</a>
+      <a href="#piezas" data-nav="piezas">Piezas</a>
+      <a href="#kits" data-nav="kits">Kits y tutoriales</a>
+      <a href="#art-box" data-nav="art-box">Art-box</a>
+    </nav>
+    <nav class="sec" aria-label="Más">
+      <a href="#talleres" data-nav="talleres">Talleres</a>
+      <a href="#exposicion" data-nav="exposicion">Exposición</a>
+      <a href="#encargos" data-nav="encargos">Encargos</a>
+    </nav>
+    <button class="cartbtn" id="cartBtn" aria-label="Abrir carrito">Carrito <b id="cartCount">0</b></button>
+    <button class="menubtn" id="menuBtn" aria-expanded="false">Menú</button>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div>
+      <a href="#" class="logo"><img src="img/logo-taller-materia.png" alt="Taller Materia" width="900" height="305"></a>
+      <p class="muted" style="margin-top:14px;max-width:38ch">Piezas de artistas locales, kits para hacer lo tuyo y una caja de arte cada mes.</p>
+      <form class="news" id="newsForm"><input id="newsMail" type="email" placeholder="tu correo" aria-label="Correo" required><button class="btn" type="submit">Avísenme</button></form>
+      <p class="mono muted" id="newsMsg" style="margin-top:8px" hidden>Listo. (En el prototipo no se guarda nada.)</p>
+    </div>
+    <div><h4>Comprar</h4><ul><li><a href="#piezas">Piezas</a></li><li><a href="#kits">Kits</a></li><li><a href="#art-box">Art-box</a></li><li><a href="#tutoriales">Tutoriales</a></li></ul></div>
+    <div><h4>Conocer</h4><ul><li><a href="#artistas">Artistas</a></li><li><a href="#talleres">Talleres</a></li><li><a href="#exposicion">Exposición digital</a></li><li><a href="#encargos">Encargos</a></li></ul></div>
+    <div><h4>Para artistas</h4><ul><li><a href="#postula">Postula tu trabajo</a></li><li><a href="#postula">Cómo funciona la comisión</a></li><li><a href="#postula">Dicta un taller</a></li></ul></div>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="cart" id="cart" hidden aria-label="Carrito">
+  <div class="cart-head"><h2 style="font-size:1.4rem">Tu carrito</h2><button class="xbtn" id="cartClose">Cerrar</button></div>
+  <div class="cart-list" id="cartList"></div>
+  <div class="cart-foot" id="cartFoot"></div>
+</aside>
+<div class="toast" id="toast" hidden></div>
+
+<script src="js/datos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
