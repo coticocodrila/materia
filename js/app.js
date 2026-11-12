@@ -6,7 +6,7 @@ const $=s=>document.querySelector(s);
 let cart=[];
 function addToCart(item){const ex=cart.find(i=>i.id===item.id);ex?ex.q+=item.q||1:cart.push({...item,q:item.q||1});drawCart();openCart();}
 function drawCart(){
-  $('#cartCount').textContent=cart.reduce((s,i)=>s+i.q,0);
+  document.querySelectorAll('.cc').forEach(e=>e.textContent=cart.reduce((s,i)=>s+i.q,0));
   const L=$('#cartList'),F=$('#cartFoot');
   if(!cart.length){L.innerHTML='<p class="muted">Todavía no agregas nada.</p><p><a class="link" href="#piezas">Ver piezas</a></p>';F.innerHTML='';return;}
   L.innerHTML=cart.map(i=>`<div class="ci"><div class="ph ar-sq ${i.c}"><span></span></div><div><b>${i.t}</b><small>${i.sub}</small><small class="price">${i.q} × ${fmt(i.p)}</small></div><button class="xbtn" data-rm="${i.id}">Quitar</button></div>`).join('');
@@ -33,8 +33,8 @@ V.inicio=()=>{const f=A('laura-barria');return `
  <div class="ph c5 hero-bg"><span>Laura Barría en su taller, sosteniendo un cuenco recién esmaltado. Foto horizontal a todo el ancho.</span></div>
  <div class="wrap hero-in">
   <p class="eyebrow">Hecho por artistas de la región</p>
-  <h1>Compra piezas hechas a mano, conoce a quien las hizo y <em>aprende a hacer las tuyas.</em></h1>
-  <p class="lead">Cerámica, grabado, textil e ilustración de artistas locales. Kits con tutorial para empezar en casa, y una caja de arte que llega cada mes.</p>
+  <h1>Arte hecho a mano, <em>cerca tuyo.</em></h1>
+  <p class="lead">Piezas de artistas de la región, kits con tutorial para hacer las tuyas y una caja de arte que llega cada mes.</p>
   <p class="hero-links"><a class="link" href="#piezas">Ver piezas</a><a class="link" href="#kits">Kits y tutoriales</a><a class="link" href="#art-box">Art-box</a></p>
  </div>
 </section>
@@ -112,7 +112,7 @@ V.pieza=id=>{const p=PIEZAS.find(x=>x.id===id);if(!p)return V.nf();const a=A(p.a
  return `<div class="wrap">
  <div class="crumbs"><a href="#piezas">Piezas</a> / <a href="#piezas">${a.d}</a> / ${p.t}</div>
  <div class="pdp">
-  <div class="gallery">${ph(p.c,'ar-sq',p.ph)}${ph('c1','ar-sq','detalle de la textura de cerca')}${ph('c3','ar-sq','la pieza en uso, en una casa')}</div>
+  ${gallery([ph(p.c,'ar-sq',p.ph),ph('c1','ar-sq','detalle de la textura de cerca'),ph('c3','ar-sq','la pieza en uso, en una casa')])}
   <div class="buy">
    <a class="artist-mini" href="#artista-${a.id}">${ph(a.c,'','')}<div><b>${a.n}</b><span class="ej">(ejemplo)</span><br><span class="muted" style="font-size:.9rem">${a.d} · ${a.lugar}</span></div></a>
    <h1>${p.t}</h1>
@@ -163,7 +163,7 @@ V.tutoriales=V.kits;
 
 V.kit=id=>{const k=KITS.find(x=>x.id===id);if(!k)return V.nf();const t=TUTS.find(x=>x.id===k.tut);const a=k.con?A(k.con):null;
  return `<div class="wrap"><div class="crumbs"><a href="#kits">Kits y tutoriales</a> / ${k.t}</div>
- <div class="pdp"><div class="gallery">${ph(k.c,'ar-sq',k.ph)}${ph('c3','ar-sq','caja cerrada con etiqueta Taller Materia')}${ph('c1','ar-sq','resultado terminado hecho con el kit')}</div>
+ <div class="pdp">${gallery([ph(k.c,'ar-sq',k.ph),ph('c3','ar-sq','caja cerrada con etiqueta Taller Materia'),ph('c1','ar-sq','resultado terminado hecho con el kit')])}
  <div class="buy"><p class="eyebrow">Kit Taller Materia</p><h1>${k.t}</h1><span class="price">${fmt(k.p)}</span>
   <dl class="specs"><dt>Nivel</dt><dd>${k.nivel}</dd><dt>Tiempo</dt><dd>${k.horas}</dd><dt>Tutorial</dt><dd><a class="link" href="#tutorial-${t.id}">${t.t}</a> · ${t.min} min</dd>${a?`<dt>Con</dt><dd><a class="link" href="#artista-${a.id}">${a.n}</a></dd>`:''}</dl>
   <div><p class="eyebrow" style="margin-bottom:10px">Qué trae la caja</p><ul style="margin:0;padding-left:18px;display:grid;gap:4px">${k.incluye.map(i=>`<li>${i}</li>`).join('')}</ul></div>
@@ -214,29 +214,36 @@ V.pago=()=>{const tot=cart.reduce((s,i)=>s+i.p*i.q,0);return `<div class="wrap">
 V.postula=()=>`<div class="wrap"><div class="pagehead"><p class="eyebrow">Para artistas</p><h1>Postula tu trabajo</h1><p>Esta página queda pendiente: depende de cómo decidas vender las piezas (comisión, consignación o exhibición).</p></div><div style="height:80px"></div></div>`;
 V.nf=()=>`<div class="wrap"><div class="pagehead"><h1>No encontramos esta página</h1><p><a class="link" href="#">Volver al inicio</a></p></div></div>`;
 
+/* ---------- GALERÍA (deslizable en celular) ---------- */
+const gallery=items=>`<div class="gal-wrap"><div class="gallery" id="gal">${items.join('')}</div><div class="dots">${items.map((_,i)=>`<button data-dot="${i}" aria-label="Foto ${i+1} de ${items.length}"${i?'':' aria-current="true"'}></button>`).join('')}</div></div>`;
+function initGallery(){const g=$('#gal');if(!g)return;
+  g.addEventListener('scroll',()=>{const i=Math.round(g.scrollLeft/g.clientWidth);document.querySelectorAll('[data-dot]').forEach(d=>d.toggleAttribute('aria-current',+d.dataset.dot===i))},{passive:true});}
+
 /* ---------- ROUTER ---------- */
 let pstate={d:'Todas',o:'nuevas'};
 function route(){
   const h=decodeURIComponent(location.hash.slice(1));
   let html,nav='';
   const m=h.match(/^(pieza|artista|kit|tutorial)-(.+)$/);
-  if(!h)html=V.inicio();
+  if(!h){html=V.inicio();nav='inicio';}
   else if(m){html=V[m[1]](m[2]);nav={pieza:'piezas',artista:'artistas',kit:'kits',tutorial:'kits'}[m[1]];}
   else if(h==='piezas-de'){document.getElementById('piezas-de')?.scrollIntoView();return;}
   else if(V[h]){html=h==='piezas'?V.piezas(pstate):V[h]();nav=h==='tutoriales'?'kits':h;}
   else html=V.nf();
   $('#app').innerHTML=html;
   document.querySelectorAll('[data-nav]').forEach(a=>{a.dataset.nav===nav?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current')});
-  $('#top').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false');
+  $('#top').classList.remove('open');initGallery();$('#menuBtn').setAttribute('aria-expanded','false');
   window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',route);
+$('#cartBtn2').onclick=openCart;
 $('#menuBtn').onclick=()=>{const o=$('#top').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',o)};
 
 /* ---------- EVENTOS ---------- */
 document.addEventListener('click',e=>{
   const t=e.target.closest('button,a');if(!t)return;
   if(t.matches('a[href="#piezas-de"]')){e.preventDefault();document.getElementById('piezas-de')?.scrollIntoView({behavior:'smooth'});return;}
+  if(t.dataset.dot){const g=$('#gal');g.scrollTo({left:+t.dataset.dot*g.clientWidth,behavior:'smooth'});return;}
   if(t.dataset.f){pstate.d=t.dataset.f;$('#app').innerHTML=V.piezas(pstate);return;}
   if(t.dataset.q){const o=$('#qty');o.textContent=Math.max(1,+o.textContent+ +t.dataset.q);return;}
   if(t.dataset.add){const p=PIEZAS.find(x=>x.id===t.dataset.add);const q=$('#qty')?+$('#qty').textContent:1;addToCart({id:p.id,t:p.t,sub:A(p.a).n,p:p.p,c:p.c,q});return;}

@@ -17,23 +17,33 @@
 <header class="top" id="top">
   <div class="wrap">
     <a href="#" class="logo"><img src="img/logo-taller-materia.png" alt="Taller Materia, inicio" width="900" height="305"></a>
+    <div class="navs" id="navs">
     <nav class="main" aria-label="Principal">
       <a href="#artistas" data-nav="artistas">Artistas</a>
-      <a href="#piezas" data-nav="piezas">Piezas</a>
-      <a href="#kits" data-nav="kits">Kits y tutoriales</a>
-      <a href="#art-box" data-nav="art-box">Art-box</a>
+      <a href="#piezas" data-nav="piezas" class="dup">Piezas</a>
+      <a href="#kits" data-nav="kits" class="dup">Kits y tutoriales</a>
+      <a href="#art-box" data-nav="art-box" class="dup">Art-box</a>
     </nav>
     <nav class="sec" aria-label="Más">
       <a href="#talleres" data-nav="talleres">Talleres</a>
       <a href="#exposicion" data-nav="exposicion">Exposición</a>
       <a href="#encargos" data-nav="encargos">Encargos</a>
     </nav>
-    <button class="cartbtn" id="cartBtn" aria-label="Abrir carrito">Carrito <b id="cartCount">0</b></button>
+    </div>
+    <button class="cartbtn" id="cartBtn" aria-label="Abrir carrito">Carrito <b class="cc" id="cartCount">0</b></button>
     <button class="menubtn" id="menuBtn" aria-expanded="false">Menú</button>
   </div>
 </header>
 
 <main id="app"></main>
+
+<nav class="tabbar" aria-label="Accesos rápidos">
+  <a href="#" data-nav="inicio">Inicio</a>
+  <a href="#piezas" data-nav="piezas">Piezas</a>
+  <a href="#kits" data-nav="kits">Kits</a>
+  <a href="#art-box" data-nav="art-box">Art-box</a>
+  <button id="cartBtn2" aria-label="Abrir carrito">Carrito <b class="cc">0</b></button>
+</nav>
 
 <footer class="foot">
   <div class="wrap">
